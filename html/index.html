@@ -1,0 +1,171 @@
+<!--
+    VaultofCodes Web development Internship Task-3
+    Task assigned on: 18/10/2023
+    Task Deadline: 23/10/2023
+    Task Description:
+
+    You are tasked with creating an interactive user registration form for our website. The form should be visually appealing, user-friendly, and responsive to different screen sizes.
+
+    Requirements:
+
+    1.HTML/CSS: Create a well-structured HTML document with appropriate form elements. Apply CSS to style the form and make it visually appealing.
+
+    2.Form Fields:
+    Full Name (First Name, Last Name)
+    Email Address
+    Password
+    Confirm Password
+    Date of Birth
+    Gender (Dropdown or Radio buttons)
+    Profile Picture (with upload button)
+    Terms and Conditions Checkbox
+
+    Task 2:
+    Password Strength Indicator:
+    Provide a visual indicator showing the strength of the password (e.g., weak, medium, strong).
+    If password length is >8 it is strong, greater than 6 and less than 8 is medium, less than 5 is weak
+
+    Author: Adrian Mathew Aloysius
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  
+<form action="https://script.google.com/macros/s/AKfycbzAtrIUjNenimR5hMNfJt6vojemXaKN9Wn3J3s2rdfY_NCCn4ZcrlJf0_5pkMP2z2xQQg/exec" method="post" target="_blank" name="contactform" id="contactform">
+  <div class="wrapper">
+    <div class="title">
+      Registration Form
+    </div>
+    <div class="form">
+      <div class="inputfield">
+          <label>First Name</label>
+          <input type="text" name="First Name" id="fname" class="input"  autocomplete="on" required>
+      </div>  
+      <div class="inputfield">
+          <label>Last Name</label>
+          <input type="text" name="Last Name" id="lname" class="input" autocomplete="on" required>
+      </div>  
+      <div class="inputfield"> 
+        <label>Email Address</label>
+        <input type="email" name="Email Address" id="email"  class="input" autocomplete="on" required>
+      </div> 
+      <div class="inputfield">
+          <label>Password</label>
+          <div class="password-input-container">
+          <input type="password" id="password"  name="Password" onkeyup="checkPasswordStrength()"
+          class="input" required>
+          <span class="password-toggle-button" id="toggle-password" onclick="togglePasswordVisibility()">Show</span>
+          </div>
+      </div>  
+      <div id="password-strength"></div>
+      <div class="inputfield">
+          <label>Confirm Password</label>
+          <input type="password" id="cpassword" name="cpassword" class="input" required>
+      </div> 
+      <div class="inputfield">
+        <label>Date of Birth</label>
+        <input type="date" id="dob" name="Date of Birth" class="input" required>
+      </div>
+        <div class="inputfield">
+          <label>Gender</label>
+          <div class="custom_select">
+            <select name="Gender" required>
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div> 
+        <div class="inputfield">
+          <label> Profile Photo </label>
+          <input type="file" accept="image/*" name="Profile" id="myFile" class="input" required>
+        </div>
+      <div class="inputfield terms">
+          <label class="check">
+            <input type="checkbox" name="Checkbox" required>
+            <span class="checkmark"></span>
+          </label>
+          <p>Agreed to terms and conditions</p>
+      </div> 
+      
+      <div class="inputfield">
+        <button type="submit" value="Register" class="btn">Register</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  var password = document.getElementById("password")
+  , cpassword = document.getElementById("cpassword");
+
+function validatePassword(){
+  if(password.value != cpassword.value) {
+    cpassword.setCustomValidity("Passwords Don't Match");
+  } else {
+    cpassword.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+cpassword.onkeyup = validatePassword;
+</script>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzAtrIUjNenimR5hMNfJt6vojemXaKN9Wn3J3s2rdfY_NCCn4ZcrlJf0_5pkMP2z2xQQg/exec'
+  const form = document.forms['contactform']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => alert("Thank you! your form is submitted successfully." ))
+      .then(() => {  window.location.reload(); })
+      .catch(error => console.error('Error!', error.message))
+  })
+</script>
+
+<script>
+  function checkPasswordStrength() {
+      const password = document.getElementById('password').value;
+      const strengthIndicator = document.getElementById('password-strength');
+
+      if (password.length > 8) {
+          strengthIndicator.style.backgroundColor = 'green';
+          strengthIndicator.textContent = 'Strong';
+      } else if (password.length > 5) {
+          strengthIndicator.style.backgroundColor = 'orange';
+          strengthIndicator.textContent = 'Medium';
+      } else if (password.length > 0) {
+          strengthIndicator.style.backgroundColor = 'red';
+          strengthIndicator.textContent = 'Weak';
+      } else {
+          strengthIndicator.style.backgroundColor = '';
+          strengthIndicator.textContent = '';
+      }
+  }
+
+  function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.getElementById('toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = 'Show';
+            }
+}
+</script>
+
+</body>
+</html>
+
